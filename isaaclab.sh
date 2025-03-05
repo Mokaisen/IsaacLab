@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x  # Print each command before execution
 
 # Copyright (c) 2022-2025, The Isaac Lab Project Developers.
 # All rights reserved.
@@ -287,6 +288,8 @@ while [[ $# -gt 0 ]]; do
                 shift # past argument
             fi
             # install the rl-frameworks specified
+            ${python_exe} -m pip install --upgrade pip
+            ${python_exe} -m pip install git+https://github.com/leggedrobotics/rsl_rl.git
             ${python_exe} -m pip install -e ${ISAACLAB_PATH}/source/extensions/omni.isaac.lab_tasks["${framework_name}"]
 
             # check if we are inside a docker container or are building a docker image
