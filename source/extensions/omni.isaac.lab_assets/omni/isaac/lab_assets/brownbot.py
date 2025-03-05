@@ -20,7 +20,7 @@ from omni.isaac.lab.utils.assets import ISAACLAB_NUCLEUS_DIR
 
 BROWNBOT05_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
-        usd_path=f"/isaac_sim/workspaces/isaac_sim_scene/UR5_brown.usd",
+        usd_path=f"/isaac-sim/workspaces/isaac_sim_scene/UR5_brown_02.usd",
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,
             max_depenetration_velocity=5.0,
@@ -34,8 +34,52 @@ BROWNBOT05_CFG = ArticulationCfg(
             "elbow_joint": 1.712,
             "wrist_1_joint": 0.0,
             "wrist_2_joint": 0.0,
-            "wrist_3_joint": 0.0,
+            "wrist_3_joint": 0.0
         },
     ),
+    actuators={
+        "arm_00": ImplicitActuatorCfg(
+            joint_names_expr=["shoulder_pan_joint"],
+            velocity_limit=100.0,
+            effort_limit=87.0,
+            stiffness=800.0,
+            damping=40.0,
+        ),
+        "arm_01": ImplicitActuatorCfg(
+            joint_names_expr=["shoulder_lift_joint"],
+            velocity_limit=100.0,
+            effort_limit=87.0,
+            stiffness=800.0,
+            damping=40.0,
+        ),
+        "arm_02": ImplicitActuatorCfg(
+            joint_names_expr=["elbow_joint"],
+            velocity_limit=100.0,
+            effort_limit=87.0,
+            stiffness=800.0,
+            damping=40.0,
+        ),
+        "arm_03": ImplicitActuatorCfg(
+            joint_names_expr=["wrist_1_joint"],
+            velocity_limit=100.0,
+            effort_limit=87.0,
+            stiffness=800.0,
+            damping=40.0,
+        ),
+        "arm_04": ImplicitActuatorCfg(
+            joint_names_expr=["wrist_2_joint"],
+            velocity_limit=100.0,
+            effort_limit=87.0,
+            stiffness=800.0,
+            damping=40.0,
+        ),
+        "arm_05": ImplicitActuatorCfg(
+            joint_names_expr=["wrist_3_joint"],
+            velocity_limit=100.0,
+            effort_limit=87.0,
+            stiffness=800.0,
+            damping=40.0,
+        )
+    },
 )
 """Configuration of UR-10 arm using implicit actuator models."""

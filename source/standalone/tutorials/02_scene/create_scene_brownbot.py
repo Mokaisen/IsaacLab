@@ -92,13 +92,21 @@ def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
             # clear internal buffers
             scene.reset()
             print("[INFO]: Resetting robot state...")
-        # Apply random action
-        # -- generate random joint efforts
-        efforts = torch.randn_like(robot.data.joint_pos) * 5.0
-        # -- apply action to the robot
-        robot.set_joint_effort_target(efforts)
-        # -- write data to sim
-        scene.write_data_to_sim()
+
+
+            # Apply random action
+            # -- generate random joint efforts
+            positions = torch.randn_like(robot.data.joint_pos) * 1.0
+            # -- apply action to the robot
+            robot.set_joint_position_target(positions)
+            # -- write data to sim
+            scene.write_data_to_sim()
+
+            print("positions: ", positions)
+            print("robot.data.joint_pos: ", robot.data.joint_pos)
+        
+        
+        
         # Perform step
         sim.step()
         # Increment counter
@@ -110,7 +118,7 @@ def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
 def main():
     """Main function."""
     # Load kit helper
-    sim_cfg = sim_utils.SimulationCfg(device=args_cli.device)
+    sim_cfg = sim_utils.SimulationCfg(dt=1.0, device=args_cli.device)
     sim = SimulationContext(sim_cfg)
     # Set main camera
     sim.set_camera_view([2.5, 0.0, 4.0], [0.0, 0.0, 2.0])
