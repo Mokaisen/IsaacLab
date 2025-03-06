@@ -34,7 +34,8 @@ BROWNBOT05_CFG = ArticulationCfg(
             "elbow_joint": 1.712,
             "wrist_1_joint": 0.0,
             "wrist_2_joint": 0.0,
-            "wrist_3_joint": 0.0
+            "wrist_3_joint": 0.0,
+            "finger_joint": 0.0,
         },
     ),
     actuators={
@@ -79,7 +80,14 @@ BROWNBOT05_CFG = ArticulationCfg(
             effort_limit=87.0,
             stiffness=800.0,
             damping=40.0,
-        )
+        ),
+        "arm_06": ImplicitActuatorCfg(
+            joint_names_expr=["finger_joint"],
+            velocity_limit=100.0,
+            effort_limit=87.0,
+            stiffness=0.1125,
+            damping=0.001,
+        ),
     },
 )
 """Configuration of UR-10 arm using implicit actuator models."""
