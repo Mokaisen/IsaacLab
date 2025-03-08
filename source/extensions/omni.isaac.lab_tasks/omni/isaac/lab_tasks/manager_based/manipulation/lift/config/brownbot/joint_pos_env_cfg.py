@@ -18,7 +18,7 @@ from omni.isaac.lab_tasks.manager_based.manipulation.lift.lift_env_cfg import Li
 # Pre-defined configs
 ##
 from omni.isaac.lab.markers.config import FRAME_MARKER_CFG  # isort: skip
-from omni.isaac.lab_assets.brownbot import BROWNBOT_CFG  # isort: skip
+from omni.isaac.lab_assets.brownbot import BROWNBOT05_CFG  # isort: skip
 
 
 @configclass
@@ -28,7 +28,7 @@ class BrownbotCubeLiftEnvCfg(LiftEnvCfg):
         super().__post_init__()
 
         # Set Franka as robot
-        self.scene.robot = BROWNBOT_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+        self.scene.robot = BROWNBOT05_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
 
         # Set actions for the specific robot type (franka)
         self.actions.arm_action = mdp.JointPositionActionCfg(
@@ -48,7 +48,7 @@ class BrownbotCubeLiftEnvCfg(LiftEnvCfg):
             close_command_expr={"finger_joint": 0.4},
         )
         # Set the body name for the end effector
-        self.commands.object_pose.body_name = "robotiq_gripper"
+        self.commands.object_pose.body_name = "robotiq_base_link"
 
         # Set Cube as object
         self.scene.object = RigidObjectCfg(
@@ -78,7 +78,7 @@ class BrownbotCubeLiftEnvCfg(LiftEnvCfg):
             visualizer_cfg=marker_cfg,
             target_frames=[
                 FrameTransformerCfg.FrameCfg(
-                    prim_path="{ENV_REGEX_NS}/Robot/UR5/UR5/robotiq_gripper",
+                    prim_path="{ENV_REGEX_NS}/Robot/UR5/UR5/robotiq_gripper/robotiq_base_link",
                     name="end_effector",
                     offset=OffsetCfg(
                         pos=[0.0, 0.0, 0.1034],
