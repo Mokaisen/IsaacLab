@@ -20,7 +20,7 @@ from omni.isaac.lab.utils.assets import ISAACLAB_NUCLEUS_DIR
 
 BROWNBOT05_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
-        usd_path=f"/isaac-sim/workspaces/isaac_sim_scene/UR5_brown_02.usd",
+        usd_path=f"/isaac-sim/workspaces/isaac_sim_scene/UR5_brown_04.usd",
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,
             max_depenetration_velocity=5.0,

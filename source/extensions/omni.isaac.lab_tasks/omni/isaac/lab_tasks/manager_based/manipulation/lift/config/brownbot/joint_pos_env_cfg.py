@@ -45,7 +45,7 @@ class BrownbotCubeLiftEnvCfg(LiftEnvCfg):
             asset_name="robot",
             joint_names=["finger_joint"],
             open_command_expr={"finger_joint": 0.0},
-            close_command_expr={"finger_joint": 0.4},
+            close_command_expr={"finger_joint": 0.53},
         )
         # Set the body name for the end effector
         self.commands.object_pose.body_name = "robotiq_base_link"
@@ -78,7 +78,7 @@ class BrownbotCubeLiftEnvCfg(LiftEnvCfg):
             visualizer_cfg=marker_cfg,
             target_frames=[
                 FrameTransformerCfg.FrameCfg(
-                    prim_path="{ENV_REGEX_NS}/Robot/UR5/UR5/robotiq_gripper/robotiq_base_link",
+                    prim_path="{ENV_REGEX_NS}/Robot/UR5/UR5/Robotiq_2F_140/robotiq_base_link",
                     name="end_effector",
                     offset=OffsetCfg(
                         pos=[0.0, 0.0, 0.1034],
