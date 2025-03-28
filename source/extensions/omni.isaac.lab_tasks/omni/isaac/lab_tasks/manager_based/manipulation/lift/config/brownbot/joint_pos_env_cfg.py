@@ -81,7 +81,7 @@ class BrownbotCubeLiftEnvCfg(LiftEnvCfg):
                     prim_path="{ENV_REGEX_NS}/Robot/UR5/UR5/Robotiq_2F_140/robotiq_base_link",
                     name="end_effector",
                     offset=OffsetCfg(
-                        pos=[0.0, 0.0, 0.1034],
+                        pos=[0.0, 0.0, 0.1334],
                     ),
                 ),
             ],
