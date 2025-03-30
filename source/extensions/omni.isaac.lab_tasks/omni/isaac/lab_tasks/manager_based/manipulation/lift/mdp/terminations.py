@@ -53,9 +53,10 @@ def object_reached_goal(
     return distance < threshold
 
 def joint_velocity_exceeded(env: ManagerBasedRLEnv, velocity_threshold: float, asset_cfg: SceneEntityCfg) -> torch.Tensor:
-    """Terminate the episode if any joint velocity exceeds the threshold """
+    """Terminate when any joint velocity exceeds the threshold."""
     robot: RigidObject = env.scene[asset_cfg.name]
-    joint_velocities = robot.data.joint_velocities # Shape: (num_envs, num_joints)
+    joint_velocities = robot.data.joint_vel # Shape: (num_envs, num_joints)
+    
+    #print(joint_velocities)
 
-    too_fast = torch.any(torch.abs(joint_velocities) > velocity_threshold, dim=1)
-    return too_fast
+    return torch.any(torch.abs(robot.data.joint_vel) > velocity_threshold, dim=1)

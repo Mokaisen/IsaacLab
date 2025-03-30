@@ -135,7 +135,7 @@ class EventCfg:
 class RewardsCfg:
     """Reward terms for the MDP."""
 
-    reaching_object = RewTerm(func=mdp.object_ee_distance, params={"std": 0.1}, weight=16.0)
+    reaching_object = RewTerm(func=mdp.object_ee_distance, params={"std": 1.0}, weight=16.0)
 
     lifting_object = RewTerm(func=mdp.object_is_lifted, params={"minimal_height": 0.04}, weight=7.0)
 
@@ -172,7 +172,7 @@ class TerminationsCfg:
     )
 
     excessive_velocity = DoneTerm(
-        func=mdp.joint_velocity_exceeded, params={"velocity_threshold": 5.0, "asset_cfg": SceneEntityCfg("robot")}
+        func=mdp.joint_velocity_exceeded, params={"velocity_threshold": 60.0, "asset_cfg": SceneEntityCfg("robot")}
     )
 
 @configclass

@@ -43,10 +43,13 @@ def object_ee_distance(
     object_ee_distance = torch.norm(cube_pos_w - ee_w, dim=1)
     #print(f"################### Object ee distance {object_ee_distance}:")
 
-    #temp_debug = 1 - torch.tanh(object_ee_distance / std)
-    #print(f"object ee distance 2: {temp_debug}")
+    reward_distance = torch.exp(- (object_ee_distance / std) )
 
-    return torch.exp(- (object_ee_distance / std) ** 2)
+    reward_distance += (reward_distance > 0.60) * 1.5
+    reward_distance += (reward_distance > 0.88) * 3.0
+    #print(f"object ee distance 2: {reward_distance}")
+
+    return reward_distance
 
 
 def object_goal_distance(
