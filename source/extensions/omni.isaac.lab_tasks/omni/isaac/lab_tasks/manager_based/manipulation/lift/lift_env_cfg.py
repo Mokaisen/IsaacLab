@@ -152,11 +152,11 @@ class RewardsCfg:
     )
 
     # action penalty
-    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-4)
+    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-1)
 
     joint_vel = RewTerm(
         func=mdp.joint_vel_l2,
-        weight=-1e-4,
+        weight=-1e-1,
         params={"asset_cfg": SceneEntityCfg("robot")},
     )
 
@@ -171,6 +171,9 @@ class TerminationsCfg:
         func=mdp.root_height_below_minimum, params={"minimum_height": -0.05, "asset_cfg": SceneEntityCfg("object")}
     )
 
+    excessive_velocity = DoneTerm(
+        func=mdp.joint_velocity_exceeded, params={"velocity_threshold": 5.0, "asset_cfg": SceneEntityCfg("robot")}
+    )
 
 @configclass
 class CurriculumCfg:
