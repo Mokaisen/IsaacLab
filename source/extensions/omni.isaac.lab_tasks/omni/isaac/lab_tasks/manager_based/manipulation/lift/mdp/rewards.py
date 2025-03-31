@@ -41,15 +41,24 @@ def object_ee_distance(
     ee_w = ee_frame.data.target_pos_w[..., 0, :]
     # Distance of the end-effector to the object: (num_envs,)
     object_ee_distance = torch.norm(cube_pos_w - ee_w, dim=1)
-    #print(f"################### Object ee distance {object_ee_distance}:")
+    # print(f"################### Object ee distance {object_ee_distance}:")
 
+    # End-effector velocity (num_envs, 3)
+    # ee_velocity = ee_frame.data.target_lin_vel_w[..., 0, :]
+    # ee_speed = torch.norm(ee_velocity, dim=1)  # Speed scalar (num_envs,)
+
+    # based reward with smooth decay
     reward_distance = torch.exp(- (object_ee_distance / std) )
 
-    reward_distance += (reward_distance > 0.60) * 1.5
-    reward_distance += (reward_distance > 0.88) * 3.0
+    reward_distance += (object_ee_distance < 0.60) * 1.5
+    reward_distance += (object_ee_distance < 0.38) * 5.0
     #print(f"object ee distance 2: {reward_distance}")
 
-    return reward_distance
+    # Velocity penalty when close to the object
+    # velocity_penalty = (object_ee_distance < 0.40) * (ee_speed * -0.5)
+    # reward_distance += velocity_penalty
+
+    return reward_distance 
 
 
 def object_goal_distance(
