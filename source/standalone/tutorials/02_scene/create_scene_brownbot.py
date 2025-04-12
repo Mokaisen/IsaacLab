@@ -45,6 +45,7 @@ from omni.isaac.lab.utils import configclass
 # Pre-defined configs
 ##
 from omni.isaac.lab_assets import BROWNBOT05_CFG  # isort:skip
+from omni.isaac.lab_assets import UR10_CFG
 
 
 @configclass
@@ -61,6 +62,7 @@ class CartpoleSceneCfg(InteractiveSceneCfg):
 
     # articulation
     cartpole: ArticulationCfg = BROWNBOT05_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+    # cartpole: ArticulationCfg = UR10_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot") 
 
 
 def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
@@ -71,10 +73,12 @@ def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
     # Define simulation stepping
     sim_dt = sim.get_physics_dt()
     count = 0
+    reset_round = 0
     # Simulation loop
     while simulation_app.is_running():
         # Reset
         if count % 500 == 0:
+            reset_round += 1
             # reset counter
             count = 0
             # reset the scene entities
@@ -86,24 +90,40 @@ def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
             robot.write_root_pose_to_sim(root_state[:, :7])
             robot.write_root_velocity_to_sim(root_state[:, 7:])
             # set joint positions with some noise
-            joint_pos, joint_vel = robot.data.default_joint_pos.clone(), robot.data.default_joint_vel.clone()
-            joint_pos += torch.rand_like(joint_pos) * 0.1
-            robot.write_joint_state_to_sim(joint_pos, joint_vel)
+            #joint_pos, joint_vel = robot.data.default_joint_pos.clone(), robot.data.default_joint_vel.clone()
+            #joint_pos += torch.rand_like(joint_pos) * 0.1
+            #robot.write_joint_state_to_sim(joint_pos, joint_vel)
             # clear internal buffers
             scene.reset()
             print("[INFO]: Resetting robot state...")
 
 
-            # Apply random action
+            # ------ Apply random action
+            controlled_joint_indices = [0, 1, 2, 3, 4, 5]  # Example indices for arm joints
+            # Get the current joint positions (N_envs x N_joints)
+            positions = robot.data.joint_pos.clone()
+
+            # Generate new random targets for selected joints only
+            random_targets = torch.randn((positions.shape[0], len(controlled_joint_indices)), device=positions.device) * 1.0
+
+            # Apply the random targets only to the selected joints
+            positions[:, controlled_joint_indices] = random_targets
+            
+            # ------ Close the gripper (joint 7) after 3 resets
+            #if reset_round % 3 == 0:
+            #    positions[:, 6] = 0.75
+            #    print("CLOSE GRIPPER")
+
             # -- generate random joint efforts
-            positions = torch.randn_like(robot.data.joint_pos) * 1.0
+            #positions = torch.randn_like(robot.data.joint_pos) * 1.0
             # -- apply action to the robot
             robot.set_joint_position_target(positions)
             # -- write data to sim
             scene.write_data_to_sim()
 
-            print("positions: ", positions)
+            # print("positions: ", positions)
             print("robot.data.joint_pos: ", robot.data.joint_pos)
+            # print("joint vel: ", joint_vel)
         
         
         
@@ -118,7 +138,7 @@ def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
 def main():
     """Main function."""
     # Load kit helper
-    sim_cfg = sim_utils.SimulationCfg(dt=1.0, device=args_cli.device)
+    sim_cfg = sim_utils.SimulationCfg(dt=0.01, device=args_cli.device)
     sim = SimulationContext(sim_cfg)
     # Set main camera
     sim.set_camera_view([2.5, 0.0, 4.0], [0.0, 0.0, 2.0])

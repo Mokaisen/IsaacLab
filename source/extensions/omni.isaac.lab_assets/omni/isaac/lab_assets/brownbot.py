@@ -32,9 +32,9 @@ BROWNBOT05_CFG = ArticulationCfg(
             "shoulder_pan_joint": 0.0,
             "shoulder_lift_joint": -1.712,
             "elbow_joint": 1.712,
-            "wrist_1_joint": 0.0,
-            "wrist_2_joint": 0.0,
-            "wrist_3_joint": 0.0,
+            "wrist_1_joint": -1.712,
+            "wrist_2_joint": -1.712,
+            "wrist_3_joint": 1.712,
             "finger_joint": 0.0,
         },
     ),
@@ -85,8 +85,8 @@ BROWNBOT05_CFG = ArticulationCfg(
             joint_names_expr=["finger_joint"],
             velocity_limit=1.220,
             effort_limit=10.0,
-            stiffness=0.1125,
-            damping=0.001,
+            stiffness=0.1125, #300
+            damping=0.001, #30
         ),
     },
 )

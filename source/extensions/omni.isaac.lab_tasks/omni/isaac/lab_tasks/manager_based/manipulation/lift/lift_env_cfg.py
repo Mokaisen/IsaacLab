@@ -42,6 +42,9 @@ class ObjectTableSceneCfg(InteractiveSceneCfg):
     # target object: will be populated by agent env cfg
     object: RigidObjectCfg | DeformableObjectCfg = MISSING
 
+    # object's orientation
+    object_frame: FrameTransformerCfg = MISSING
+
     # Table
     table = AssetBaseCfg(
         prim_path="{ENV_REGEX_NS}/Table",
@@ -137,7 +140,7 @@ class RewardsCfg:
 
     reaching_object = RewTerm(func=mdp.object_ee_distance, params={"std": 1.0}, weight=16.0)
 
-    lifting_object = RewTerm(func=mdp.object_is_lifted, params={"minimal_height": 0.04}, weight=7.0)
+    lifting_object = RewTerm(func=mdp.object_is_lifted, params={"minimal_height": 0.04}, weight=5.0)
 
     object_goal_tracking = RewTerm(
         func=mdp.object_goal_distance,
@@ -151,12 +154,21 @@ class RewardsCfg:
         weight=5.0,
     )
 
+    gripper_orientation_alignment = RewTerm(
+        func=mdp.orientation_alignment,
+        weight=6.0,
+        params={
+            "object_cfg": SceneEntityCfg("object"),
+            "ee_frame_cfg": SceneEntityCfg("ee_frame"),
+        }
+    )
+
     # action penalty
-    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1.0)
+    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-1)
 
     joint_vel = RewTerm(
         func=mdp.joint_vel_l2,
-        weight=-1.0,
+        weight=-1e-1,
         params={"asset_cfg": SceneEntityCfg("robot")},
     )
 
