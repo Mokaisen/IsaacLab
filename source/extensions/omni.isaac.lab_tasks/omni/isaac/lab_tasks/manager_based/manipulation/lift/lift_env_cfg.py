@@ -138,14 +138,14 @@ class EventCfg:
 class RewardsCfg:
     """Reward terms for the MDP."""
 
-    reaching_object = RewTerm(func=mdp.object_ee_distance, params={"std": 1.0}, weight=16.0)
+    reaching_object = RewTerm(func=mdp.object_ee_distance, params={"std": 1.0}, weight=1.0)
 
-    lifting_object = RewTerm(func=mdp.object_is_lifted, params={"minimal_height": 0.04}, weight=5.0)
+    lifting_object = RewTerm(func=mdp.object_is_lifted, params={"minimal_height": 0.04}, weight=7.0)
 
     object_goal_tracking = RewTerm(
         func=mdp.object_goal_distance,
         params={"std": 0.3, "minimal_height": 0.04, "command_name": "object_pose"},
-        weight=5.0,
+        weight=7.0,
     )
 
     object_goal_tracking_fine_grained = RewTerm(
@@ -156,7 +156,7 @@ class RewardsCfg:
 
     gripper_orientation_alignment = RewTerm(
         func=mdp.orientation_alignment,
-        weight=6.0,
+        weight=1.0,
         params={
             "object_cfg": SceneEntityCfg("object"),
             "ee_frame_cfg": SceneEntityCfg("ee_frame"),
