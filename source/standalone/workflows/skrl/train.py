@@ -177,19 +177,19 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
     runner = Runner(env, agent_cfg)
 
     # Load checkpoint before training
-    # checkpoint = "/workspace/isaaclab/logs/skrl/franka_lift/2025-04-05_16-31-42_ppo_torch/checkpoints/agent_72000.pt"
-    # if checkpoint != "empty":
-    #     resume_path = os.path.abspath(checkpoint)
-    # else:
-    #     resume_path = get_checkpoint_path(
-    #         log_root_path, run_dir=f".*_{algorithm}_{args_cli.ml_framework}", other_dirs=["checkpoints"]
-    #     )
+    checkpoint = "/workspace/isaaclab/logs/skrl/franka_lift/2025-04-19_15-59-38_ppo_torch/checkpoints/agent_72000.pt"
+    if checkpoint != "empty":
+        resume_path = os.path.abspath(checkpoint)
+    else:
+        resume_path = get_checkpoint_path(
+            log_root_path, run_dir=f".*_{algorithm}_{args_cli.ml_framework}", other_dirs=["checkpoints"]
+        )
 
-    # if os.path.exists(resume_path):
-    #     print(f"[INFO] ################################## Loading model checkpoint from: {resume_path}")
-    #     runner.agent.load(resume_path)
-    # else:
-    #     print(f"[WARNING] ############################ No checkpoint found at {resume_path}. Training will start from scratch.")
+    if os.path.exists(resume_path):
+        print(f"[INFO] ################################## Loading model checkpoint from: {resume_path}")
+        runner.agent.load(resume_path)
+    else:
+        print(f"[WARNING] ############################ No checkpoint found at {resume_path}. Training will start from scratch.")
 
     # run training
     runner.run()

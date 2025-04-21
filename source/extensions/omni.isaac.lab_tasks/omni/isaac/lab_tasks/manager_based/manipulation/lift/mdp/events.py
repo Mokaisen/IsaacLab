@@ -7,16 +7,16 @@ from omni.isaac.lab.managers import SceneEntityCfg
 def biased_reset_root_state_uniform(
         env: ManagerBasedRLEnv, env_ids: torch.Tensor, asset_cfg: SceneEntityCfg = SceneEntityCfg("object")
 ):
-    if random.random() < 0.7:
+    if random.random() < 0.6:
         pose_range = {
             "x": (-0.1, 0.1),
-            "y": (0.0, 0.25),
+            "y": (-0.25, 0.0),
             "z": (0.0, 0.0),
         }
     else:
         pose_range = { 
             "x": (-0.1, 0.1),
-            "y": (-0.25, 0.0),
+            "y": (0.0, 0.25),
             "z": (0.0, 0.0),
         }
     
