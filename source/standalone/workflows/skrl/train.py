@@ -177,7 +177,7 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
     runner = Runner(env, agent_cfg)
 
     # Load checkpoint before training
-    checkpoint = "/workspace/isaaclab/logs/skrl/franka_lift/2025-04-19_15-59-38_ppo_torch/checkpoints/agent_72000.pt"
+    checkpoint = "/workspace/isaaclab/logs/skrl/franka_lift/2025-04-20_16-10-57_ppo_torch/checkpoints/agent_72000.pt"
     if checkpoint != "empty":
         resume_path = os.path.abspath(checkpoint)
     else:
