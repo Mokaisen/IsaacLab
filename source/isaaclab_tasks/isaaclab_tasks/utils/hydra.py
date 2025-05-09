@@ -73,10 +73,18 @@ def hydra_task_config(task_name: str, agent_cfg_entry_point: str) -> Callable:
     Returns:
         The decorated function with the envrionment's and agent's configurations updated from command line arguments.
     """
+    import sys
 
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            # Remove problematic args before Hydra sees them
+            UNWANTED_ARGS = [
+                "--/app/livestream/allowResize=false",
+                "omni.kit.livestream.webrtc"
+            ]
+            sys.argv = [arg for arg in sys.argv if arg not in UNWANTED_ARGS]
+            
             # register the task to Hydra
             env_cfg, agent_cfg = register_task_to_hydra(task_name, agent_cfg_entry_point)
 
